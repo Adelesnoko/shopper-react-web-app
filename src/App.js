@@ -1,25 +1,22 @@
-import Labs from "./labs"
-import HelloWorld from "./labs/a3/hello-world";
 import Tuiter from "./tuiter";
-import {BrowserRouter} from "react-router-dom";
-import {Routes, Route, Navigate} from "react-router";
+import Shopper from "./shopper";
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="container">
         <Routes>
-          <Route index        element={<Labs/>}/>
-          <Route path="/labs/*"   element={<Labs/>}/>
-          <Route path="/hello"    element={<HelloWorld/>}/>
-          <Route path="/tuiter/*" element={<Tuiter/>}/>
+          <Route index element={<Tuiter />} />
+          <Route path="/tuiter/*" element={<Tuiter />} />
+          <Route path="/shopper/*" element={<Shopper />} />
         </Routes>
       </div>
     </BrowserRouter>
   );
 }
 export default App;
-
 
 // import React, { useEffect, useState } from "react";
 // import Labs from "./labs"
@@ -35,14 +32,13 @@ export default App;
 // import AuthContext from "./tuiter/user/auth-context";
 // import ProtectedRoute from "./tuiter/user/protected-route";
 
-
 // function App() {
 //   return (
 //     <Provider store={store}>
 //       <AuthContext>
 //         <BrowserRouter>
 //             <div className="container">
-              
+
 //               <Routes>
 //                 <Route path="/login" element={<LoginScreen />} />
 //                 <Route path="/register" element={<RegisterScreen />} />
@@ -70,7 +66,7 @@ export default App;
 //               </div>
 //         </BrowserRouter>
 //       </AuthContext>
-      
+
 //     </Provider>
 //   );
 // }
