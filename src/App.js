@@ -1,5 +1,6 @@
-import Tuiter from "./tuiter";
-import Shopper from "./shopper";
+// import Tuiter from "./tuiter";
+// import Shopper from "./shopper";
+import MusicNiche from "./musicniche";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route, Navigate } from "react-router";
 
@@ -8,9 +9,10 @@ function App() {
     <BrowserRouter>
       <div className="container">
         <Routes>
-          <Route index element={<Tuiter />} />
-          <Route path="/tuiter/*" element={<Tuiter />} />
-          <Route path="/shopper/*" element={<Shopper />} />
+          <Route index element={<MusicNiche />} />
+          {/* <Route path="/tuiter/*" element={<Tuiter />} />
+          <Route path="/shopper/*" element={<Shopper />} /> */}
+          <Route path="/musicniche/*" element={<MusicNiche />} />
         </Routes>
       </div>
     </BrowserRouter>
