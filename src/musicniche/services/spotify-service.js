@@ -8,120 +8,80 @@ const request = axios.create({
   withCredentials: true,
 });
 
-export const SearchArtistId = async (artistName) => {
-  const [searchInput, setSearchInput] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-
-  useEffect(() => {
-    // API Access Token
-    var authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
-
-  var searchArtistParameters = {
-    method: "GET",
+const fetchToken = async () => {
+  var authParameters = {
+    method: "POST",
     headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
+    body:
+      "grant_type=client_credentials&client_id=" +
+      CLIENT_ID +
+      "&client_secret=" +
+      CLIENT_SECRET,
   };
-
-  var artistID = await fetch(
-    "https://api.spotify.com/v1/search?q=" + artistName + "&type=artist",
-    searchArtistParameters
+  const res = await fetch(
+    "https://accounts.spotify.com/api/token",
+    authParameters
   );
-  return artistID.data;
+  const token = await res.json();
+  console.log("xxxxxxxxx" + token.access_token);
+  return token.access_token;
 };
 
-export const GetAlbumByArtistId = async (artistId) => {
-  const [searchInput, setSearchInput] = useState("");
-  const [accessToken, setAccessToken] = useState("");
+export const getAlbumsByArtistName = async (artistName) => {
+  const token = await fetchToken();
 
-  useEffect(() => {
-    // API Access Token
-    var authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
-
-  var searchParameters = {
+  const searchParameters = {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + accessToken,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   };
+  var artistID = await fetch(
+    "https://api.spotify.com/v1/search?q=" + artistName + "&type=artist",
+    searchParameters
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      return data.artists.items[0].id;
+    });
+  console.log("Artist ID is " + artistID);
 
-  var Albums = await fetch(
+  const albums = await fetch(
     "https://api.spotify.com/v1/artists/" +
-      artistId +
+      artistID +
       "/albums" +
       "?include_groups=album&market=US&limit=50",
     searchParameters
   );
-  return Albums;
+  const albumssssss = await albums.json();
+  return albumssssss.items;
 };
 
 export const GetAlbumDetail = async (albumId) => {
-  const [accessToken, setAccessToken] = useState("");
-
-  useEffect(() => {
-    // API Access Token
-    var authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
-
+  const token = await fetchToken();
   var searchParameters = {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + accessToken,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   };
-
-  var albumsDetails = await fetch(
+  const albumsDetails = await fetch(
     "https://api.spotify.com/v1/albums/" + albumId,
     searchParameters
   );
-  return albumsDetails;
+  const album = await albumsDetails.json();
+  console.log("Debugger----" + album);
+  return album;
 };
-// export const albumImageUrl = (album) =>
-//   `${SPOTIFY_IMAGE_URL}/albums/${album.id}/images/300x300.jpg`;
+
+export const albumImageUrl = (album) => {
+  return album.images[0].url;
+};
 
 // export const fullTextSearch = async (text) => {
 //   const response = await axios.get(
@@ -131,10 +91,11 @@ export const GetAlbumDetail = async (albumId) => {
 // };
 
 // export const getAlbumDetails = async (albumId) => {
-//   const response = await axios.get(
-//     `${SPOTIFY_API}/albums/${albumId}?apikey=${KEY}`
-//   );
-//   return response.data.albums[0];
+//   return "abshjsdh";
+// const response = await axios.get(
+//   `${SPOTIFY_API}/albums/${albumId}?apikey=${KEY}`
+// );
+// return response.data.albums[0];
 // };
 
 // export const getAlbumTracks = async (albumId) => {

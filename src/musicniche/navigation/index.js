@@ -14,8 +14,8 @@ const Navigation = () => {
   const [ignore, musicniche, active] = pathname.split("/");
   const links = [
     { name: "home", icon: <AiFillHome /> },
+    // { name: "search", icon: <AiOutlineSearch /> },
     { name: "search", icon: <AiOutlineSearch /> },
-    { name: "search2", icon: <AiOutlineSearch /> },
     // { name: "details", icon: <FaHashtag /> },
     { name: "profile", icon: <AiOutlineUser /> },
     { name: "login", icon: <AiOutlineLogin /> },

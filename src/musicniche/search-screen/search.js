@@ -9,6 +9,7 @@ import {
   Row,
   Card,
 } from "react-bootstrap";
+import * as service from "../services/spotify-service";
 
 const CLIENT_ID = "0e2a3e40589e4864a245fd95433a3374";
 const CLIENT_SECRET = "b3cd4ec1803547bda3b0582b9216c99b";
@@ -39,43 +40,9 @@ function Search() {
   // Search
   async function search() {
     console.log("Search for " + searchInput); // Bruno Mars
-    console.log("Token is: " + accessToken);
 
-    // Get request using search to get the Artist ID
-    var searchArtistParameters = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-      },
-    };
-    var artistID = await fetch(
-      "https://api.spotify.com/v1/search?q=" + searchInput + "&type=artist",
-      searchArtistParameters
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        return data.artists.items[0].id;
-      });
-    console.log("Artist ID is " + artistID);
-
-    // Get request with Artist ID grab all the albums from that artist
-    var returnAlbums = await fetch(
-      "https://api.spotify.com/v1/artists/" +
-        artistID +
-        "/albums" +
-        "?include_groups=album&market=US&limit=50",
-      searchArtistParameters
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("This is Data ------");
-        console.log(data);
-        setAlbums(data.items);
-      });
-
-    // Display
+    const albumsResult = await service.getAlbumsByArtistName(searchInput);
+    setAlbums(albumsResult);
   }
 
   console.log(albums);
