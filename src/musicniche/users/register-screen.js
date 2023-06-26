@@ -10,7 +10,7 @@ function RegisterScreen() {
   const handleRegister = async () => {
     try {
       await dispatch(registrationThunk(user));
-      navigate("/tuiter/profile");
+      navigate("/musicniche/profile");
     } catch (error) {
       console.error(error);
     }

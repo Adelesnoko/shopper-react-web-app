@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaHashtag } from "react-icons/fa";
 import {
   AiFillHome,
   AiOutlineSearch,
@@ -17,12 +16,12 @@ const Navigation = () => {
     { name: "home", icon: <AiFillHome /> },
     { name: "search", icon: <AiOutlineSearch /> },
     { name: "search2", icon: <AiOutlineSearch /> },
-    { name: "details", icon: <FaHashtag /> },
+    // { name: "details", icon: <FaHashtag /> },
     { name: "profile", icon: <AiOutlineUser /> },
     { name: "login", icon: <AiOutlineLogin /> },
     { name: "register", icon: <GiArchiveRegister /> },
   ];
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
 
   return (
     <div className="list-group">
@@ -43,7 +42,7 @@ const Navigation = () => {
 
       {/* # Show only Profile Screen when user is logged in, otherwise, show login
       and register screen */}
-      {!currentUser && (
+      {/* {!currentUser && (
         <Link
           className={`list-group-item text-capitalize ${
             active === "Login" ? "active" : ""
@@ -87,7 +86,7 @@ const Navigation = () => {
             <span className="d-sm-none d-lg-block">Profile</span>
           </div>
         </Link>
-      )}
+      )} */}
     </div>
   );
 };

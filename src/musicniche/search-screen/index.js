@@ -8,14 +8,14 @@ function SearchScreen() {
   const navigate = useNavigate();
   const [results, setResults] = useState();
   const [query, setQuery] = useState(searchTerm);
-  const search = async () => {
-    const response = await service.fullTextSearch(query);
-    setResults(response);
-  };
+  // const search = async () => {
+  //   const response = await service.fullTextSearch(query);
+  //   setResults(response);
+  // };
   useEffect(() => {
     if (searchTerm) {
       setQuery(searchTerm);
-      search();
+      // search();
     }
   }, [searchTerm]);
   return (
@@ -41,7 +41,7 @@ function SearchScreen() {
               <h2>
                 <Link to={`/project/details/${album.id}`}>{album.name}</Link>
               </h2>
-              <img src={service.albumImageUrl(album)} />
+              {/* <img src={service.albumImageUrl(album)} alt={album.name} /> */}
             </li>
           ))}
       </ul>

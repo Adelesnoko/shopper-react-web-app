@@ -29,7 +29,7 @@ function MusicNiche() {
             <Route path="/home" element={<HomeScreen />} />
             <Route path="/search" element={<SearchScreen />} />
             <Route path="/search2" element={<Search />} />
-            <Route path="/details" element={<DetailScreen />} />
+            <Route path="/detail-screen/:id" element={<DetailScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />

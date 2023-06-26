@@ -7,9 +7,11 @@ import {
   updateUserThunk,
 } from "../../services/auth-thunks";
 import * as postsService from "../../services/posts-service";
+import * as spotifyService from "../../services/spotify-service";
 
 function ProfileScreen() {
-  const { currentUser } = useSelector((state) => state.user);
+  const [albumsIlike, setAlbumsIlike] = useState([]);
+  const { currentUser } = useSelector((state) => state.users);
   const [profile, setProfile] = useState(currentUser);
   const [myPosts, setMyPosts] = useState([]);
   const dispatch = useDispatch();
@@ -17,7 +19,7 @@ function ProfileScreen() {
 
   const handleLogout = () => {
     dispatch(logoutThunk());
-    navigate("/tuiter/login");
+    navigate("/musicniche/search");
   };
 
   const handleUpdate = async () => {
@@ -28,22 +30,26 @@ function ProfileScreen() {
     }
   };
 
+  // const fetchMyLikes = async () => {
+  //   const albums = await spotifyService.findAlbumsILike();
+  //   setAlbumsIlike(albums);
+  // };
+
   useEffect(() => {
+    // fetchMyLikes();
     const fetchProfile = async () => {
-      //   const { payload } = await dispatch(profileThunk());
-      //   setProfile(payload);
       try {
         const { payload } = await dispatch(profileThunk());
         setProfile(payload);
       } catch (error) {
         console.error(error);
-        navigate("/tuiter/login");
+        navigate("/musicniche/search");
       }
     };
     const fetchMyPosts = async () => {
       try {
-        const tuits = await postsService.findMyPosts();
-        setMyPosts(tuits);
+        const posts = await postsService.findMyPosts();
+        setMyPosts(posts);
       } catch (error) {
         console.error(error);
       }
@@ -56,7 +62,7 @@ function ProfileScreen() {
     <div>
       <h1>Profile</h1>
       {profile && (
-        <div>
+        <>
           <label>Username</label>
           <input className="form-control" value={profile.username} readOnly />
           <label>Password</label>
@@ -73,7 +79,6 @@ function ProfileScreen() {
               setProfile({ ...profile, firstName: e.target.value })
             }
           />
-
           <label>Last Name</label>
           <input
             className="form-control"
@@ -82,18 +87,17 @@ function ProfileScreen() {
               setProfile({ ...profile, lastName: e.target.value })
             }
           />
-          <button className="btn btn-primary ms-2 mt-2" onClick={handleUpdate}>
-            Save
+          <button onClick={handleUpdate} className="btn btn-primary">
+            Update
           </button>
-        </div>
+        </>
       )}
-      <button className="btn btn-danger ms-2 mt-2" onClick={handleLogout}>
+      <button onClick={handleLogout} className="btn btn-danger">
         Logout
       </button>
-      <hr />
-      <h4>My Posts</h4>
-      <pre>{JSON.stringify(myPosts, null, 2)}</pre>
+      <pre>{JSON.stringify(albumsIlike, null, 2)}</pre>
     </div>
   );
 }
+
 export default ProfileScreen;
