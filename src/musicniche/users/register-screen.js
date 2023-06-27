@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { registrationThunk } from "../services/auth-thunks";
+import { Button } from "react-bootstrap";
+
 function RegisterScreen() {
   const [user, setUser] = useState({});
   // const [password, setPassword] = useState("");
@@ -20,23 +22,23 @@ function RegisterScreen() {
   };
   return (
     <div>
-      <h1>Register</h1>
+      <h1 style={{ color: "#17594A" }}>Register</h1>
       <input
         placeholder="Username"
-        className="form-control"
+        className="form-control mt-2"
         value={user.username}
         onChange={(e) => setUser({ ...user, username: e.target.value })}
       />
       <input
         placeholder="Password"
         type="password"
-        className="form-control"
+        className="form-control mt-2"
         value={user.password}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
-      <button onClick={handleRegister} className="btn btn-primary">
+      <Button onClick={handleRegister} variant="success mt-2">
         Register
-      </button>
+      </Button>
     </div>
   );
 }

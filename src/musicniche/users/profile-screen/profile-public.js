@@ -3,6 +3,7 @@ import * as service from "../../services/spotify-service";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { Button } from "react-bootstrap";
 
 function ProfilePublic() {
   const { profileId } = useParams();
@@ -33,16 +34,24 @@ function ProfilePublic() {
 
   return (
     <div>
-      <h1>Profile Public {profileId}</h1>
-      <button onClick={handleFollow}>Follow</button>
+      <h1 style={{ color: "#17594A" }}>Profile Public</h1>
+      <h5 style={{ color: "#17594A" }}>UserId: {profileId}</h5>
+      <Button onClick={handleFollow} variant="success">
+        Follow
+      </Button>
+      <hr />
+
       {peopleThatFollowMe && (
         <div>
-          <h2>People that follow me</h2>
+          <h3 style={{ color: "#17594A" }}>User's Followers</h3>
           <div className="list-group">
             {peopleThatFollowMe.map((person) => (
               <div className="list-group-item">{person.follower.username}</div>
             ))}
           </div>
+          <span style={{ color: "#17594A" }}>
+            * Login to explore more information.
+          </span>
         </div>
       )}
     </div>

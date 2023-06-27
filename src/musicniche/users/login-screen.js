@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginThunk } from "../services/auth-thunks";
+import { Button } from "react-bootstrap";
 
 function LoginScreen() {
   const [user, setUser] = useState({});
@@ -21,29 +22,32 @@ function LoginScreen() {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1 style={{ color: "#17594A" }}>Login</h1>
+      <p style={{ color: "#17594A" }}>
+        Log in and enjoy full functionality of the site.{" "}
+      </p>
       <input
         placeholder="Username"
-        className="form-control"
+        className="form-control mt-2"
         value={user.username}
         onChange={(e) => setUser({ ...user, username: e.target.value })}
       />
       <input
         placeholder="Password"
         type="password"
-        className="form-control"
+        className="form-control mt-2"
         value={user.password}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
-      <button onClick={handleLogin} className="btn btn-primary">
+      <Button onClick={handleLogin} variant="success mt-2">
         Login
-      </button>
+      </Button>
       <hr />
       <h>Don't have an account?</h>
       <br />
-      <button onClick={handleRegister} color="rgb(50,100,100)">
+      <Button onClick={handleRegister} variant="secondary mt-2">
         Register Here
-      </button>
+      </Button>
     </div>
   );
 }

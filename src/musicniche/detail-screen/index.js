@@ -55,9 +55,9 @@ function DetailsScreen() {
     <div>
       {albumDetails && (
         <div>
-          <h1>Album Details</h1>
-          <h3> Album Name: {albumDetails.name}</h3>
-          <h3> Artist: </h3>
+          <h1 style={{ color: "#17594A" }}>Album Details</h1>
+          <h3 style={{ color: "#17594A" }}> Album Name: {albumDetails.name}</h3>
+          {/* <h3> Artist: {albumDetails.artist}</h3> */}
 
           <img
             src={service.albumImageUrl(albumDetails)}
@@ -87,7 +87,7 @@ function DetailsScreen() {
 
       {peopleLike && (
         <div>
-          <h2>People who like this album</h2>
+          <h2 style={{ color: "#17594A" }}>People who like this album</h2>
           <div className="list-group">
             {peopleLike.map((person) => (
               <Link
@@ -101,10 +101,11 @@ function DetailsScreen() {
           </div>
         </div>
       )}
+      <hr />
 
       {peopleDislike && (
         <div>
-          <h2>People who dislike this album</h2>
+          <h2 style={{ color: "#17594A" }}>People who dislike this album</h2>
           <div className="list-group">
             {peopleDislike.map((person) => (
               <Link
@@ -118,8 +119,7 @@ function DetailsScreen() {
           </div>
         </div>
       )}
-
-      <div></div>
+      <hr />
     </div>
   );
 }
