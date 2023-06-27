@@ -1,5 +1,3 @@
-// import Tuiter from "./tuiter";
-// import Shopper from "./shopper";
 import MusicNiche from "./musicniche";
 import { BrowserRouter, Link } from "react-router-dom";
 import { Routes, Route, Navigate } from "react-router";

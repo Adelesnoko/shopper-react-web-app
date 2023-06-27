@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const SERVER_API_URL = process.env.REACT_APP_API_BASE;
+// const SERVER_API_URL = "http://localhost:4000";
 const USERS_URL = `${SERVER_API_URL}/users`;
 
 const request = axios.create({ withCredentials: true });
@@ -19,7 +20,7 @@ export const logout = async () => {
   return response.data;
 };
 export const getProfile = async () => {
-  const response = await request.get(`${USERS_URL}/profile`);
+  const response = await request.post(`${USERS_URL}/profile`);
   return response;
 };
 export const getUsers = async () => {

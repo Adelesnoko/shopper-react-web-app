@@ -13,8 +13,8 @@ function Nav() {
       <Link className="nav-link" to="/shopper">
         Shopper
       </Link> */}
-      <Link className="nav-link" to="/musicniche">
-        <a href="" className="logo">
+      <Link className="nav-link" to="/musicniche/home">
+        <a href="/" className="logo">
           <img
             className="logo"
             height="80px"
