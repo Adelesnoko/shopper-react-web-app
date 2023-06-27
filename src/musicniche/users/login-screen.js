@@ -15,6 +15,10 @@ function LoginScreen() {
       console.error(error);
     }
   };
+  const handleRegister = async () => {
+    navigate("/musicniche/register");
+  };
+
   return (
     <div>
       <h1>Login</h1>
@@ -33,6 +37,12 @@ function LoginScreen() {
       />
       <button onClick={handleLogin} className="btn btn-primary">
         Login
+      </button>
+      <hr />
+      <h>Don't have an account?</h>
+      <br />
+      <button onClick={handleRegister} color="rgb(50,100,100)">
+        Register Here
       </button>
     </div>
   );

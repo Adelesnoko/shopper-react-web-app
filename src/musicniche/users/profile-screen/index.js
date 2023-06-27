@@ -10,16 +10,17 @@ import * as postsService from "../../services/posts-service";
 import * as spotifyService from "../../services/spotify-service";
 
 function ProfileScreen() {
-  const [albumsIlike, setAlbumsIlike] = useState([]);
   const { currentUser } = useSelector((state) => state.users);
   const [profile, setProfile] = useState(currentUser);
+  const [albumsIlike, setAlbumsIlike] = useState([]);
+
   const [myPosts, setMyPosts] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutThunk());
-    navigate("/musicniche/search");
+    navigate("/musicniche/login");
   };
 
   const handleUpdate = async () => {
@@ -43,7 +44,7 @@ function ProfileScreen() {
         setProfile(payload);
       } catch (error) {
         console.error(error);
-        navigate("/musicniche/search");
+        navigate("/musicniche/home");
       }
     };
     const fetchMyPosts = async () => {
