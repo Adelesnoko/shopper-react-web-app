@@ -113,7 +113,21 @@ export const albumImageUrl = (album) => {
 //   return response.data;
 // };
 
-// export const findAlbumsILike = async () => {
-//   const response = await request.get(`http://localhost:4000/api/albums/i/like`);
-//   return response.data;
-// };
+export const findAlbumsILike = async () => {
+  const response = await request.get(`http://localhost:4000/api/albums/i/like`);
+  return response.data;
+};
+
+export const findPeopleIFollow = async () => {
+  const response = await request.get(
+    `http://localhost:4000/api/users/i/follow`
+  );
+  return response.data;
+};
+
+export const findPeopleWhoFollowMe = async () => {
+  const response = await request.get(
+    `http://localhost:4000/api/users/follow/me`
+  );
+  return response.data;
+};

@@ -29,7 +29,9 @@ function DetailsScreen() {
       {albumDetails && (
         <div>
           <h1>Album Details</h1>
-          <h2> Name: {albumDetails.name}</h2>
+          <h3> Album Name: {albumDetails.name}</h3>
+          <h3> Artist: </h3>
+
           <img
             src={service.albumImageUrl(albumDetails)}
             alt={albumDetails.name}

@@ -8,6 +8,14 @@ import {
   registrationThunk,
 } from "../services/auth-thunks";
 
+const initialState = {
+  users: [],
+  newUser: {},
+  error: null,
+  loading: false,
+  currentUser: null,
+};
+
 const usersSlice = createSlice({
   name: "users",
   initialState: {

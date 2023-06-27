@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import {
   profileThunk,
   logoutThunk,
@@ -13,8 +14,9 @@ function ProfileScreen() {
   const { currentUser } = useSelector((state) => state.users);
   const [profile, setProfile] = useState(currentUser);
   const [albumsIlike, setAlbumsIlike] = useState([]);
-
   const [myPosts, setMyPosts] = useState([]);
+  const [peopleIFollow, setPeopleIFollow] = useState([]);
+  const [peopleWhoFollowMe, setPeopleWhoFollowMe] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,13 +33,31 @@ function ProfileScreen() {
     }
   };
 
-  // const fetchMyLikes = async () => {
-  //   const albums = await spotifyService.findAlbumsILike();
-  //   setAlbumsIlike(albums);
-  // };
+  const fetchMyPosts = async () => {
+    try {
+      const posts = await postsService.findMyPosts();
+      setMyPosts(posts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMyLikes = async () => {
+    const albums = await spotifyService.findAlbumsILike();
+    setAlbumsIlike(albums);
+  };
+
+  const fetchPeopleIFollow = async () => {
+    const people = await spotifyService.findPeopleIFollow();
+    setPeopleIFollow(people);
+  };
+
+  const fetchPeopleWhoFollowMe = async () => {
+    const people = await spotifyService.findPeopleWhoFollowMe();
+    setPeopleWhoFollowMe(people);
+  };
 
   useEffect(() => {
-    // fetchMyLikes();
     const fetchProfile = async () => {
       try {
         const { payload } = await dispatch(profileThunk());
@@ -47,21 +67,18 @@ function ProfileScreen() {
         navigate("/musicniche/home");
       }
     };
-    const fetchMyPosts = async () => {
-      try {
-        const posts = await postsService.findMyPosts();
-        setMyPosts(posts);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchProfile();
-    fetchMyPosts();
+
+    // fetchMyPosts();
+    // fetchMyLikes();
+    // fetchPeopleIFollow();
+    // fetchPeopleWhoFollowMe();
   }, []);
 
   return (
     <div>
       <h1>Profile</h1>
+
       {profile && (
         <>
           <label>Username</label>
@@ -96,6 +113,62 @@ function ProfileScreen() {
       <button onClick={handleLogout} className="btn btn-danger">
         Logout
       </button>
+
+      {peopleWhoFollowMe && (
+        <>
+          <h3>People who follow me</h3>
+          <div className="list-group">
+            {peopleWhoFollowMe &&
+              peopleWhoFollowMe.map((person) => (
+                <Link
+                  to={`/project/profile/${person._id}`}
+                  className="list-group-item"
+                  key={person._id}
+                >
+                  <h4>{person.username}</h4>
+                </Link>
+              ))}
+          </div>
+        </>
+      )}
+
+      {peopleIFollow && (
+        <>
+          <h3>People I follow</h3>
+          <div className="list-group">
+            {peopleIFollow &&
+              peopleIFollow.map((person) => (
+                <Link
+                  to={`/project/profile/${person._id}`}
+                  className="list-group-item"
+                  key={person._id}
+                >
+                  <h4>{person.username}</h4>
+                </Link>
+              ))}
+          </div>
+        </>
+      )}
+
+      {albumsIlike && (
+        <>
+          <h3>Albums I like</h3>
+
+          <div className="list-group">
+            {albumsIlike &&
+              albumsIlike.map((album) => (
+                <Link
+                  to={`/project/details/${album.albumId}`}
+                  className="list-group-item"
+                  key={album.id}
+                >
+                  <h4>{album.name}</h4>
+                </Link>
+              ))}
+          </div>
+        </>
+      )}
+
       <pre>{JSON.stringify(albumsIlike, null, 2)}</pre>
     </div>
   );

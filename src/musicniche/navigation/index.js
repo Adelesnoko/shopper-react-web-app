@@ -17,11 +17,11 @@ const Navigation = () => {
     // { name: "search", icon: <AiOutlineSearch /> },
     { name: "search", icon: <AiOutlineSearch /> },
     // { name: "details", icon: <FaHashtag /> },
-    { name: "profile", icon: <AiOutlineUser /> },
-    { name: "login", icon: <AiOutlineLogin /> },
-    { name: "register", icon: <GiArchiveRegister /> },
+    // { name: "profile", icon: <AiOutlineUser /> },
+    // { name: "login", icon: <AiOutlineLogin /> },
+    // { name: "register", icon: <GiArchiveRegister /> },
   ];
-  // const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.users);
 
   return (
     <div className="list-group">
@@ -42,12 +42,12 @@ const Navigation = () => {
 
       {/* # Show only Profile Screen when user is logged in, otherwise, show login
       and register screen */}
-      {/* {!currentUser && (
+      {!currentUser && (
         <Link
           className={`list-group-item text-capitalize ${
             active === "Login" ? "active" : ""
           }`}
-          to="/tuiter/login"
+          to="/musicniche/login"
         >
           <div className="d-flex align-items-center">
             <span className="me-2">
@@ -62,7 +62,7 @@ const Navigation = () => {
           className={`list-group-item text-capitalize ${
             active === "Register" ? "active" : ""
           }`}
-          to="/tuiter/register"
+          to="/musicniche/register"
         >
           <div className="d-flex align-items-center">
             <span className="me-2">
@@ -77,7 +77,7 @@ const Navigation = () => {
           className={`list-group-item text-capitalize ${
             active === "Profile" ? "active" : ""
           }`}
-          to="/tuiter/profile"
+          to="/musicniche/profile"
         >
           <div className="d-flex align-items-center">
             <span className="me-2">
@@ -86,7 +86,7 @@ const Navigation = () => {
             <span className="d-sm-none d-lg-block">Profile</span>
           </div>
         </Link>
-      )} */}
+      )}
     </div>
   );
 };

@@ -8,10 +8,13 @@ function RegisterScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleRegister = async () => {
+    console.log("Calling register-----");
     try {
       await dispatch(registrationThunk(user));
+      console.log("Calling register--1---");
       navigate("/musicniche/profile");
     } catch (error) {
+      console.log("Calling register---2--");
       console.error(error);
     }
   };

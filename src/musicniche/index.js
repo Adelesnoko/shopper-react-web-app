@@ -14,10 +14,12 @@ import postsReducer from "./reducers/posts-reducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import whoReducer from "./reducers/who-reducer";
+import usersReducer from "./reducers/users-reducer";
+import { store } from "./store";
 // import WhoToFollowList from "./who-to-follow-list";
-const store = configureStore({
-  reducer: { who: whoReducer, posts: postsReducer },
-});
+// const store = configureStore({
+//   reducer: { who: whoReducer, posts: postsReducer, user: usersReducer },
+// });
 
 function MusicNiche() {
   return (
