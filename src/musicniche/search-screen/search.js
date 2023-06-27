@@ -54,13 +54,13 @@ function Search() {
       <Container>
         <InputGroup className="mb-3" size="lg">
           <FormControl
-            placeholder="Search"
+            placeholder={searchTerm}
             type="input"
-            onKeyUp={(event) => {
-              if (event.key === "Enter") {
-                search();
-              }
-            }}
+            // onKeyUp={(event) => {
+            //   if (event.key === "Enter") {
+            //     search();
+            //   }
+            // }}
             onChange={(event) => setSearchInput(event.target.value)}
           />
           <Button onClick={() => navigate(`/musicniche/search/${searchInput}`)}>

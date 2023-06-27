@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 const CLIENT_ID = "0e2a3e40589e4864a245fd95433a3374";
 const CLIENT_SECRET = "b3cd4ec1803547bda3b0582b9216c99b";
+const SERVER_API_URL = process.env.REACT_APP_API_BASE;
 
 const request = axios.create({
   withCredentials: true,
@@ -105,29 +106,69 @@ export const albumImageUrl = (album) => {
 //   return response.data.tracks;
 // };
 
-// export const likeAlbum = async (albumId, album) => {
-//   const response = await request.post(
-//     `http://localhost:4000/api/albums/albumId/${albumId}/like`,
-//     album
-//   );
-//   return response.data;
-// };
+export const likeAlbum = async (albumId, album) => {
+  const response = await request.post(
+    `${SERVER_API_URL}/api/albums/albumId/${albumId}/like`,
+    album
+  );
+  return response.data;
+};
 
 export const findAlbumsILike = async () => {
-  const response = await request.get(`http://localhost:4000/api/albums/i/like`);
+  const response = await request.get(`${SERVER_API_URL}/api/albums/i/like`);
+  return response.data;
+};
+
+export const dislikeAlbum = async (albumId, album) => {
+  const response = await request.post(
+    `${SERVER_API_URL}/api/albums/albumId/${albumId}/dislike`,
+    album
+  );
+  return response.data;
+};
+
+export const findAlbumsIDislike = async () => {
+  const response = await request.get(`${SERVER_API_URL}/api/albums/i/dislike`);
   return response.data;
 };
 
 export const findPeopleIFollow = async () => {
   const response = await request.get(
-    `http://localhost:4000/api/users/i/follow`
+    `${SERVER_API_URL}/api/follows/i/followed`
+  );
+  return response.data;
+};
+
+export const createFollow = async (followed) => {
+  const response = await request.post(
+    `${SERVER_API_URL}/api/follows/followed/${followed}`
   );
   return response.data;
 };
 
 export const findPeopleWhoFollowMe = async () => {
   const response = await request.get(
-    `http://localhost:4000/api/users/follow/me`
+    `${SERVER_API_URL}/api/follows/i/followed/me`
+  );
+  return response.data;
+};
+
+export const findPeopleWhoLikeAlbum = async (albumId) => {
+  const response = await request.get(
+    `${SERVER_API_URL}/api/albums/albumId/${albumId}/likes`
+  );
+  return response.data;
+};
+export const findPeopleWhoDislikeAlbum = async (albumId) => {
+  const response = await request.get(
+    `${SERVER_API_URL}/api/albums/albumId/${albumId}/dislikes`
+  );
+  return response.data;
+};
+
+export const findFollowsByFollowed = async (followed) => {
+  const response = await request.get(
+    `${SERVER_API_URL}/api/follows/followed/${followed}`
   );
   return response.data;
 };

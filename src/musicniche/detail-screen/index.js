@@ -9,6 +9,9 @@ function DetailsScreen() {
   const { id } = useParams();
   const [albumDetails, setAlbumDetails] = useState();
   const [tracks, setTracks] = useState();
+  const [peopleLike, setPeopleLike] = useState();
+  const [peopleDislike, setPeopleDislike] = useState();
+  const [commentValue, setCommentValue] = useState();
 
   const fetchAlbumDetails = async () => {
     const album = await service.GetAlbumDetail(id);
@@ -16,11 +19,35 @@ function DetailsScreen() {
     setAlbumDetails(album);
     setTracks(album.tracks);
   };
-  console.log("ID is:  " + id);
+
+  const handleLikeAlbum = async () => {
+    const album = await service.likeAlbum(id, {
+      id: albumDetails.id,
+      name: albumDetails.name,
+    });
+  };
+
+  const handleDislikeAlbum = async () => {
+    const album = await service.dislikeAlbum(id, {
+      id: albumDetails.id,
+      name: albumDetails.name,
+    });
+  };
+
+  const findPeopleWhoLikeAlbum = async () => {
+    const peopleLike = await service.findPeopleWhoLikeAlbum(id);
+    setPeopleLike(peopleLike);
+  };
+
+  const findPeopleWhoDislikeAlbum = async () => {
+    const peopleDislike = await service.findPeopleWhoDislikeAlbum(id);
+    setPeopleDislike(peopleDislike);
+  };
 
   useEffect(() => {
-    console.log("----aaaaaaa");
     fetchAlbumDetails();
+    findPeopleWhoLikeAlbum();
+    findPeopleWhoDislikeAlbum();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -35,18 +62,63 @@ function DetailsScreen() {
           <img
             src={service.albumImageUrl(albumDetails)}
             alt={albumDetails.name}
+            style={{ height: "300px" }}
           />
-          {/* <hr />
+          <hr />
           {currentUser && (
             <div>
               <button onClick={handleLikeAlbum}>Like</button>
-              <button>Dislike</button>
-              <textarea></textarea>
+              <button onClick={handleDislikeAlbum}>Dislike</button>
+              {/* <textarea
+                value={comment}
+                placeholder="Add your comment here"
+                className="form-control border-0"
+                onChange={(event) => setWhatsHappening(event.target.value)}
+              ></textarea>
+              <button className="rounded-pill btn btn-primary float-end mt-2 ps-3 pe-3 fw-bold"
+                            onClick={tuitClickHandler}>
+                        Post
+              </button> */}
             </div>
           )}
-          <hr /> */}
+          <hr />
         </div>
       )}
+
+      {peopleLike && (
+        <div>
+          <h2>People who like this album</h2>
+          <div className="list-group">
+            {peopleLike.map((person) => (
+              <Link
+                className="list-group-item"
+                to={`/musicniche/profile/${person._id}`}
+                key={person._id}
+              >
+                {person.username}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {peopleDislike && (
+        <div>
+          <h2>People who dislike this album</h2>
+          <div className="list-group">
+            {peopleDislike.map((person) => (
+              <Link
+                className="list-group-item"
+                to={`/musicniche/profile/${person._id}`}
+                key={person._id}
+              >
+                {person.username}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div></div>
     </div>
   );

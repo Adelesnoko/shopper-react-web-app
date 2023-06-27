@@ -6,7 +6,7 @@ function Nav() {
   const location = useLocation();
   console.log(location.pathname);
   return (
-    <nav className="nav nav-tabs mb-2">
+    <nav className="NavBar">
       {/* <Link className="nav-link" to="/tuiter">
         Tuiter
       </Link>

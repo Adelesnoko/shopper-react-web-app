@@ -16,6 +16,9 @@ import { Provider } from "react-redux";
 import whoReducer from "./reducers/who-reducer";
 import usersReducer from "./reducers/users-reducer";
 import { store } from "./store";
+import ProfilePublic from "./users/profile-screen/profile-public";
+import EditProfile from "./users/profile-screen/edit-profile";
+
 // import WhoToFollowList from "./who-to-follow-list";
 // const store = configureStore({
 //   reducer: { who: whoReducer, posts: postsReducer, user: usersReducer },
@@ -26,7 +29,7 @@ function MusicNiche() {
     <Provider store={store}>
       <div>
         <Nav />
-        <div className="row">
+        <div className="row mt-2">
           <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
             <div className="d-flex flex-column">
               <div className="mb-3">
@@ -44,11 +47,18 @@ function MusicNiche() {
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/login" element={<LoginScreen />} />
               <Route path="/register" element={<RegisterScreen />} />
+              <Route path="/profile/:profileId" element={<ProfilePublic />} />
+              <Route path="/profile/edit-profile" element={<EditProfile />} />
             </Routes>
           </div>
-          <div className="col-xxl-3 col-xl-3 col-lg-3 d-none d-md-none d-lg-block order-md-last">
-            <h2>Who to Follow</h2>
-            {/* <WhoToFollowList /> */}
+          <div
+            className="col-xxl-2 col-xl-2 col-lg-2 d-none d-md-none d-lg-block order-md-last"
+            style={{
+              padding: "10px",
+              backgroundColor: "lightgray",
+            }}
+          >
+            <h5 style={{ color: "gray" }}>Ads</h5>
           </div>
         </div>
       </div>

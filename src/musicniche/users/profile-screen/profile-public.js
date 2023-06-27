@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import * as service from "../../services/spotify-service";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 function ProfilePublic() {
   const { profileId } = useParams();
   const [peopleThatFollowMe, setPeopleThatFollowMe] = useState();
+  const { currentUser } = useSelector((state) => state.users);
+  const navigate = useNavigate();
+
   const handleFollow = async () => {
+    if (!currentUser) {
+      console.error("No user is currently logged in. Please log in first.");
+      navigate("/musicniche/login");
+      return;
+    }
     try {
       await service.createFollow(profileId);
     } catch (error) {

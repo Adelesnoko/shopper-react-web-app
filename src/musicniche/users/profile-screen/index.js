@@ -2,21 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import {
-  profileThunk,
-  logoutThunk,
-  updateUserThunk,
-} from "../../services/auth-thunks";
+import { profileThunk, logoutThunk } from "../../services/auth-thunks";
 import * as postsService from "../../services/posts-service";
 import * as spotifyService from "../../services/spotify-service";
+import Button from "react-bootstrap/Button";
 
 function ProfileScreen() {
   const { currentUser } = useSelector((state) => state.users);
   const [profile, setProfile] = useState(currentUser);
   const [albumsIlike, setAlbumsIlike] = useState([]);
+  const [albumsIDislike, setAlbumsIDislike] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
   const [peopleIFollow, setPeopleIFollow] = useState([]);
   const [peopleWhoFollowMe, setPeopleWhoFollowMe] = useState([]);
+  const [isVIP, setVIP] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,12 +24,8 @@ function ProfileScreen() {
     navigate("/musicniche/login");
   };
 
-  const handleUpdate = async () => {
-    try {
-      await dispatch(updateUserThunk(profile));
-    } catch (error) {
-      console.error(error);
-    }
+  const handleEdit = async () => {
+    navigate("/musicniche/profile/edit-profile");
   };
 
   const fetchMyPosts = async () => {
@@ -45,6 +40,11 @@ function ProfileScreen() {
   const fetchMyLikes = async () => {
     const albums = await spotifyService.findAlbumsILike();
     setAlbumsIlike(albums);
+  };
+
+  const fetchMyDislikes = async () => {
+    const albums = await spotifyService.findAlbumsIDislike();
+    setAlbumsIDislike(albums);
   };
 
   const fetchPeopleIFollow = async () => {
@@ -67,79 +67,79 @@ function ProfileScreen() {
         navigate("/musicniche/home");
       }
     };
+    dispatch(profileThunk())
+      .unwrap()
+      .then((user) => {
+        if (user.usertype === "VIPUSER") {
+          setVIP(true);
+        }
+      })
+      .catch((error) => {
+        // handle the error appropriately
+        console.log(error);
+      });
+
     fetchProfile();
 
     // fetchMyPosts();
-    // fetchMyLikes();
-    // fetchPeopleIFollow();
-    // fetchPeopleWhoFollowMe();
+    fetchMyLikes();
+    fetchPeopleIFollow();
+    fetchPeopleWhoFollowMe();
   }, []);
 
   return (
     <div>
-      <h1>Profile</h1>
+      <h1 style={{ color: "#17594A" }}>Profile</h1>
+      <div
+        style={{
+          padding: "10px",
+          border: "3px solid #17594A",
+          // backgroundColor: "beige",
+        }}
+      >
+        <h3>Hello, {profile.firstName}</h3>
+        <p>Username: {profile.username}</p>
+        <p>First Name: {profile.firstName}</p>
+        <p>Last Name: {profile.lastName}</p>
+        <p>Pass Word: ******</p>
+        <p>Email: {profile.email}</p>
+        <p>User Type: {profile.usertype}</p>
+        <p>Date of Birth: {profile.dob}</p>
+        <Button onClick={handleEdit} variant="outline-primary">
+          Edit
+        </Button>
+        <Button onClick={handleLogout} variant="outline-danger">
+          Logout
+        </Button>
+      </div>
+      <br />
 
-      {profile && (
+      {isVIP && peopleWhoFollowMe && (
         <>
-          <label>Username</label>
-          <input className="form-control" value={profile.username} readOnly />
-          <label>Password</label>
-          <input
-            className="form-control"
-            value={profile.password}
-            type="password"
-          />
-          <label>First Name</label>
-          <input
-            className="form-control"
-            value={profile.firstName}
-            onChange={(e) =>
-              setProfile({ ...profile, firstName: e.target.value })
-            }
-          />
-          <label>Last Name</label>
-          <input
-            className="form-control"
-            value={profile.lastName}
-            onChange={(e) =>
-              setProfile({ ...profile, lastName: e.target.value })
-            }
-          />
-          <button onClick={handleUpdate} className="btn btn-primary">
-            Update
-          </button>
-        </>
-      )}
-      <button onClick={handleLogout} className="btn btn-danger">
-        Logout
-      </button>
-
-      {peopleWhoFollowMe && (
-        <>
-          <h3>People who follow me</h3>
+          <h3 style={{ color: "#17594A" }}>People who follow me</h3>
           <div className="list-group">
-            {peopleWhoFollowMe &&
-              peopleWhoFollowMe.map((person) => (
-                <Link
-                  to={`/project/profile/${person._id}`}
-                  className="list-group-item"
-                  key={person._id}
-                >
-                  <h4>{person.username}</h4>
-                </Link>
-              ))}
+            {peopleWhoFollowMe.map((person) => (
+              <Link
+                to={`/musicniche/profile/${person._id}`}
+                className="list-group-item"
+                key={person._id}
+              >
+                <h4>{person.username}</h4>
+              </Link>
+            ))}
           </div>
         </>
       )}
+      <br />
 
       {peopleIFollow && (
         <>
-          <h3>People I follow</h3>
+          <h3 style={{ color: "#17594A" }}>People I follow</h3>
           <div className="list-group">
             {peopleIFollow &&
               peopleIFollow.map((person) => (
                 <Link
-                  to={`/project/profile/${person._id}`}
+                  to={`/musicniche/profile/${person._id}`}
                   className="list-group-item"
                   key={person._id}
                 >
@@ -149,16 +149,17 @@ function ProfileScreen() {
           </div>
         </>
       )}
+      <br />
 
       {albumsIlike && (
-        <>
-          <h3>Albums I like</h3>
+        <div>
+          <h3 style={{ color: "#17594A" }}>Albums I like</h3>
 
           <div className="list-group">
             {albumsIlike &&
               albumsIlike.map((album) => (
                 <Link
-                  to={`/project/details/${album.albumId}`}
+                  to={`/musicniche/detail-screen/${album.albumId}`}
                   className="list-group-item"
                   key={album.id}
                 >
@@ -166,10 +167,29 @@ function ProfileScreen() {
                 </Link>
               ))}
           </div>
-        </>
+        </div>
       )}
+      <br />
 
-      <pre>{JSON.stringify(albumsIlike, null, 2)}</pre>
+      {albumsIDislike && (
+        <div>
+          <h3 style={{ color: "#17594A" }}>Albums I dislike</h3>
+
+          <div className="list-group">
+            {albumsIDislike &&
+              albumsIDislike.map((album) => (
+                <Link
+                  to={`/musicniche/detail-screen/${album.albumId}`}
+                  className="list-group-item"
+                  key={album.id}
+                >
+                  <h4>{album.name}</h4>
+                </Link>
+              ))}
+          </div>
+        </div>
+      )}
+      <br />
     </div>
   );
 }

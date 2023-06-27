@@ -8,7 +8,7 @@ import {
   AiOutlineItalic,
 } from "react-icons/ai";
 import { HiOutlineChartBar, HiOutlineLocationMarker } from "react-icons/hi";
-import { createPostThunk } from "../services/posts-thunks";
+import { createPostThunk } from "../../services/posts-thunks";
 import { useDispatch } from "react-redux";
 
 const AdminPost = () => {
@@ -32,7 +32,7 @@ const AdminPost = () => {
         <img
           className="rounded-circle"
           width={50}
-          src={require(`./images/nasa.png`)}
+          src={require(`../../images/MN-logo.jpg`)}
           alt="Nasa"
         />
       </div>
@@ -48,7 +48,7 @@ const AdminPost = () => {
             className="rounded-pill btn btn-primary float-end mt-2 ps-3 pe-3 fw-bold"
             onClick={postClickHandler}
           >
-            Post
+            New Post
           </button>
           <div className="text-primary fs-2">
             <span style={{ marginLeft: "5px" }}>
@@ -58,16 +58,10 @@ const AdminPost = () => {
               <AiOutlineFileGif style={{ fontSize: "25px" }} />
             </span>
             <span style={{ marginLeft: "5px" }}>
-              <HiOutlineChartBar style={{ fontSize: "25px" }} />
-            </span>
-            <span style={{ marginLeft: "5px" }}>
               <AiOutlineSmile style={{ fontSize: "25px" }} />
             </span>
             <span style={{ marginLeft: "5px" }}>
               <AiOutlineCalendar style={{ fontSize: "25px" }} />
-            </span>
-            <span style={{ marginLeft: "5px" }}>
-              <HiOutlineLocationMarker style={{ fontSize: "25px" }} />
             </span>
             <span style={{ marginLeft: "5px" }}>
               <AiOutlineBold style={{ fontSize: "25px" }} />
